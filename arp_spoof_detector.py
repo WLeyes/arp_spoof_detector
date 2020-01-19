@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 import scapy.all as scapy
+import sys
+import time
+from termcolor import colored
 
 
 def get_mac(ip):
@@ -24,7 +27,9 @@ def process_sniffed_packet(packet):
             real_mac = get_mac(packet[scapy.ARP].psrc)
             response_mac = packet[scapy.ARP].hwsrc
             if real_mac != response_mac:
-                print "[+] SYSTEM UNDER ATTACK - Your ARP has been spoofed!"
+                print(colored("\r[+] SYSTEM UNDER ATTACK", 'green', 'on_red', attrs=['bold']) + colored(" - Your ARP has been spoofed!", 'red', attrs=['reverse'])),
+                sys.stdout.flush()
+                time.sleep(2)
         except IndexError:
             pass
 
